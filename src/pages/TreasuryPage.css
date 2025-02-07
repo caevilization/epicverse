@@ -1,0 +1,455 @@
+/* 页面基础布局 */
+.treasury-page-body {
+  padding: 6rem 10rem 0rem 10rem;
+}
+
+/* Banner 区域 */
+.treasury-banner-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 780px;
+  overflow: hidden;
+  margin-left: calc(-50vw + 50%);
+}
+
+.treasury-banner {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scaleX(-1);
+  display: block;
+  margin-left: calc(-50vw + 50%);
+}
+
+.treasury-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  width: 60vw;
+  max-width: 1200px;
+  min-width: 600px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.treasury-title {
+  font-family: "Syne", sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+.treasury-description {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  margin: 0 auto;
+  width: 90%;
+}
+
+/* Materials 区域通用样式 */
+.treasury-materials {
+  margin-bottom: 8rem;
+}
+
+.treasury-materials:last-child {
+  margin-bottom: 0;
+}
+
+.treasury-materials.reverse .materials-content {
+  flex-direction: row-reverse;
+}
+
+.materials-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+/* 文字在左边的布局（默认） */
+.materials-content.text-left {
+  flex-direction: row;
+}
+
+/* 文字在右边的布局 */
+.materials-content.text-right {
+  flex-direction: row-reverse;
+}
+
+/* Materials 文字区域 */
+.materials-text {
+  flex: 0 0 30%;
+  align-self: flex-start;
+}
+
+.materials-text h2 {
+  font-family: "Syne", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: #000;
+  text-align: left;
+}
+
+.materials-text p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  max-width: 90%;
+  text-align: left;
+}
+
+.materials-content.text-right .materials-text h2,
+.materials-content.text-right .materials-text p {
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.materials-content.text-right .materials-text p {
+  margin-left: 10%;
+}
+
+/* Materials 项目网格 */
+.materials-items {
+  flex: 0 0 65%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  height: 20rem;
+}
+
+.materials-items.scripts {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Poster 项目样式 */
+.material-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.item-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.item-info {
+  padding: 1.2rem;
+}
+
+.item-info h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.item-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+}
+
+.item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.item-author {
+  color: #666;
+  font-style: italic;
+}
+
+.item-price {
+  color: #333;
+  font-weight: 600;
+}
+
+.material-item:hover .item-image img {
+  transform: scale(1.05);
+}
+
+/* Script 项目样式 */
+.script-item {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.script-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.script-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(20%);
+}
+
+.script-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.script-content h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: #333;
+  width: 100%;
+}
+
+.script-preview {
+  color: #666;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  max-width: 100%;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.script-details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.script-author {
+  color: #666;
+  font-style: italic;
+}
+
+.script-price {
+  color: #333;
+  font-weight: 600;
+}
+
+.material-item.script:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.material-item.script:hover .script-background {
+  opacity: 0.4;
+}
+
+/* Audio 项目样式 */
+.material-item.audio {
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.audio-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.audio-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0%);
+}
+
+.audio-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.audio-content h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: #333;
+  width: 100%;
+}
+
+.audio-preview {
+  color: #666;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.audio-details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.audio-author {
+  color: #666;
+  font-style: italic;
+}
+
+.audio-price {
+  color: #333;
+  font-weight: 600;
+}
+
+.material-item.audio:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.material-item.audio:hover .audio-background {
+  opacity: 0.4;
+}
+
+.banner-decoration {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.treasury-page {
+  background-color: #b3dee2;
+  min-height: 100vh;
+  padding: 6rem 0;
+}
+
+.treasury-section {
+  padding: 4rem 10rem;
+}
+
+.section-content {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.section-content.reverse {
+  flex-direction: row-reverse;
+}
+
+.section-text {
+  flex: 1;
+}
+
+.section-text h2 {
+  font-family: "Syne", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #000;
+}
+
+.section-items {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* 海报项目样式 */
+.poster-item {
+  position: relative;
+  aspect-ratio: 2/3;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.poster-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.poster-item:hover img {
+  transform: scale(1.05);
+}

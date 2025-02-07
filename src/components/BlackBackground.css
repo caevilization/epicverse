@@ -1,0 +1,65 @@
+.black-background {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.black-section {
+  width: 100%;
+  background-color: #000;
+  border-radius: 0 0 160px 160px;
+  overflow: hidden;
+  position: relative;
+}
+
+.content-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+}
+
+.banner-decoration {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 100vw;
+  padding: 0 1rem;
+}
+
+.banner-decoration img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.welcome-text {
+  position: absolute;
+  bottom: 160px; /* 调整位置，使其在圆角上方 */
+  right: 160px; /* 与圆角对齐 */
+  background-color: rgba(0, 0, 0, 0.2); /* 20% 透明度的黑色背景 */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.welcome-text span {
+  color: #fff;
+  font-family: "Syne", sans-serif; /* 使用 Syne 字体 */
+  text-transform: lowercase; /* 保持小写 */
+}
+
+.welcome-text span:first-child {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.welcome-text span:last-child {
+  font-size: 20px;
+}

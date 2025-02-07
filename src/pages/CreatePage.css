@@ -1,0 +1,371 @@
+.create-page-body {
+  padding: 6rem 10rem 0rem 10rem;
+}
+
+/* EPICVERSE PLAYER */
+.epicverse-player-state {
+  font-family: "Syne", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.epicverse-player-container {
+  width: 90%;
+  max-width: 1365px;
+  height: 80vh;
+  max-height: 734px;
+  background-color: #d3d3d3;
+  margin: 0 auto;
+}
+
+/* EPICVERSE FAQ */
+.faq-section {
+  max-width: 80%;
+  margin: 0 auto;
+  margin-top: 6rem;
+}
+
+.faq-title {
+  font-family: "Syne", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 4rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid #333;
+  padding: 2.2rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-item:first-child {
+  border-top: 1px solid #333;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.faq-question span:first-child {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.faq-question span:first-child::before {
+  display: none;
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  color: #333;
+  transition: transform 0.3s ease;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding-left: 0;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 20rem;
+  margin-top: 1rem;
+}
+
+.faq-answer p {
+  color: #333;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  margin: 0;
+  text-align: left;
+}
+
+.faq-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* EPICVERSE MAKER */
+.epicverse-maker-container {
+  width: 95%;
+  max-width: 95%;
+  margin: 165px auto 0;
+  min-height: 800px;
+  display: grid;
+  grid-template-columns: 22fr 54fr 21fr;
+  gap: 0;
+  column-gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* 调整最后一列的间距 */
+.epicverse-maker-container > *:last-child {
+  margin-left: 0.8rem;
+}
+
+/* EPIC MUSE */
+.epic-muse {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: transparent;
+}
+
+.muse-image {
+  flex: 1;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.muse-image img {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+}
+
+.muse-image-overlay {
+  color: #000;
+  background: rgba(179, 222, 226);
+  padding: 1rem;
+  font-family: "Syne", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.muse-selector-outer {
+  position: relative;
+  margin-bottom: 6rem;
+  padding: 1.5rem 2rem;
+}
+
+.muse-selector-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1rem;
+  border-radius: 0 0 2rem 0;
+  border: 1px solid #b3dee2;
+  filter: drop-shadow(0 0.2rem 1px #efcfe3);
+}
+
+.muse-selector-title {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #b3dee2;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.muse-buttons {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.muse-button {
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: color 0.3s ease;
+}
+
+.muse-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #808080;
+  opacity: 0.2;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.muse-button:not(.active)::before {
+  opacity: 0.8;
+}
+
+.muse-button:hover::before,
+.muse-button.active::before {
+  opacity: 0.2;
+}
+
+.muse-button:hover {
+  color: white;
+}
+
+.muse-button.active {
+  color: white;
+  font-weight: 600;
+}
+
+.epicverse-chat {
+  position: relative;
+  height: 100%;
+  padding: 2rem;
+}
+
+.epicverse-chat-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(179, 222, 226, 0.1);
+  border: 2px solid #b3dee2;
+  border-radius: 1.5rem;
+}
+
+.chat-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.chat-input {
+  padding: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.chat-input textarea {
+  flex: 1;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  resize: none;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.chat-input textarea:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.chat-send {
+  padding: 1rem 2rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-family: "Syne", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: fit-content;
+}
+
+.chat-send:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* MAKER STEPS */
+.maker-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  background: transparent;
+  padding: 2rem 0;
+}
+
+.step-box {
+  flex: 1;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Syne", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: 2px solid transparent;
+}
+
+.step-box.blue {
+  border-color: #b3dee2;
+}
+
+.step-box.pink {
+  border-color: #efcfe3;
+}
+
+.generate-button {
+  padding: 1rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-family: "Syne", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* CREATE PAGE DECORATION */
+.create-page-decoration {
+  position: absolute;
+  left: 0;
+  top: 25rem;
+  z-index: 1;
+}
+
+.create-page-decoration img {
+  width: 8rem;
+  height: auto;
+  display: block;
+}
