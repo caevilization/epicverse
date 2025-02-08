@@ -1,9 +1,9 @@
 .navigator {
   position: fixed;
-  top: 68px;
-  margin: 0 111px;
-  width: calc(100% - 222px);
-  height: 66px;
+  top: 6vh;
+  margin: 0 5vw;
+  width: 90vw;
+  height: 4.125rem;
   z-index: 1000;
   transition: all 0.3s ease;
   background-color: transparent;

@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <BlackBackground height={941}>
+      <BlackBackground height={58}>
         <div className="home-banner">
           <img src={homeBanner} alt="Welcome to EpicVerse" />
           <div className="welcome-text">

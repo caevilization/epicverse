@@ -7,9 +7,8 @@ const Navigator: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // 当滚动超过导航栏高度时切换样式
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 68);
+      setIsScrolled(scrollPosition > 20);
     };
 
     window.addEventListener("scroll", handleScroll);

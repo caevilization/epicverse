@@ -77,7 +77,7 @@ const AdventurePage: React.FC = () => {
 
   return (
     <div>
-      <BlackBackground height={780}>
+      <BlackBackground height={48}>
         <div className="adventure-banner-wrapper">
           <img
             src={adventurePage}

@@ -8,12 +8,12 @@ interface BlackBackgroundProps {
 }
 
 const BlackBackground: React.FC<BlackBackgroundProps> = ({
-  height = 941,
+  height = 94,
   children,
 }) => {
   return (
     <div className="black-background">
-      <div className="black-section" style={{ height: `${height}px` }}>
+      <div className="black-section" style={{ height: `${height}rem` }}>
         <div className="content-wrapper">{children}</div>
       </div>
       <div className="banner-decoration">

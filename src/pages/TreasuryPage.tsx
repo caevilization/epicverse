@@ -163,7 +163,7 @@ const TreasuryPage: React.FC = () => {
 
   return (
     <div>
-      <BlackBackground height={780}>
+      <BlackBackground height={48}>
         <div className="treasury-banner-wrapper">
           <img
             src={treasuryPage}

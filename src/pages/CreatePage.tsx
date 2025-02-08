@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./CreatePage.css";
-import BlackBackground from "../components/BlackBackground.tsx";
+import bannerDecoration from "../assets/images/banner-decoration.png";
 import epicmuse1 from "../assets/epicmuse/epicmuse1.png";
 import epicmuse2 from "../assets/epicmuse/epicmuse2.jpg";
 import epicmuse3 from "../assets/epicmuse/epicmuse3.jpg";
 import epicmuse4 from "../assets/epicmuse/epicmuse4.png";
-import epicmuse5 from "../assets/epicmuse/epicmuse5.png";
-import epicmuse6 from "../assets/epicmuse/epicmuse6.png";
-import createPageDecoration from "../assets/images/create-page-decoration.png";
 import step1BoxDecoration from "../assets/images/step1-box-decoration.jpg";
 import storyUi from "../assets/images/story-ui.jpg";
 import character1 from "../assets/materials/character1.png";
@@ -22,6 +19,7 @@ import scenario2 from "../assets/materials/scenario2.png";
 import scenario3 from "../assets/materials/scenario3.png";
 import scenario4 from "../assets/materials/scenario4.png";
 import scenario5 from "../assets/materials/scenario5.png";
+import { sendMessage } from "../services/api.ts";
 
 interface FAQItem {
   question: string;
@@ -35,13 +33,25 @@ interface Dialogue {
   position: "left" | "center" | "right";
   scenario?: string;
   effect?: "fadeIn" | "slideLeft" | "slideRight";
+  isEnding?: boolean;
+}
+
+interface Message {
+  text: string;
+  isUser: boolean;
+  timestamp?: number;
+}
+
+interface DialogueScript {
+  question: string;
+  answer: string;
 }
 
 const CreatePage: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [currentMuse, setCurrentMuse] = useState(0);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isBuilding, setIsBuilding] = useState(true);
   const [progress, setProgress] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
@@ -51,6 +61,8 @@ const CreatePage: React.FC = () => {
   const [showTitle, setShowTitle] = useState(false);
   const [showGameScene, setShowGameScene] = useState(false);
   const [currentScenario, setCurrentScenario] = useState(scenario1);
+  const [isLoading, setIsLoading] = useState(false);
+  const chatMessagesRef = useRef<HTMLDivElement>(null);
 
   const characters = [
     {
@@ -100,14 +112,7 @@ const CreatePage: React.FC = () => {
     },
   ];
 
-  const museImages = [
-    epicmuse1,
-    epicmuse2,
-    epicmuse3,
-    epicmuse4,
-    epicmuse5,
-    epicmuse6,
-  ];
+  const museImages = [epicmuse1, epicmuse2, epicmuse3, epicmuse4];
 
   const dialogues: Dialogue[] = [
     {
@@ -278,23 +283,192 @@ const CreatePage: React.FC = () => {
       text: "To be continued...",
       image: "",
       position: "center",
+      effect: "fadeIn",
+      isEnding: true,
     },
   ];
+
+  const mockDialogues: DialogueScript[] = [
+    {
+      question: "Hello",
+      answer:
+        "Hi, I'm your EpicMuse! Welcome to the wonderful world of AVG games. Today, I'll guide you through creating your first AVG game via our conversation.",
+    },
+    {
+      question: "Show me!",
+      answer:
+        "Sure! We'll break it down into three steps. First, I recommend starting with a Japanese school mystery story. Japan is famous for its AVG games and visual novels!",
+    },
+    {
+      question: "Sounds good",
+      answer:
+        "Based on this theme, I've determined the UI style: xxxx. Please confirm if this works for you.",
+    },
+    {
+      question: "I confirm",
+      answer:
+        "Now, you can see the sample image I generated for you on the right side of the UI. Next, let's design the characters. I suggest three main characters: the heroine xx, a mysterious male lead, and a supporting male character xx.",
+    },
+    {
+      question: "A classic character lineup. What about their designs?",
+      answer:
+        "Based on the UI style we chose earlier, I found some publicly shared, free-to-use character illustrations in the community. If you'd like to use them, please confirm.",
+    },
+    {
+      question: "I confirm",
+      answer:
+        "Great! Now the character setup is complete. Finally, I'll help you generate the first scene of the story... You can click the link to preview it. If it looks good, please confirm.",
+    },
+    {
+      question: "I confirm",
+      answer:
+        "Awesome! Now all the essential elements of a basic AVG game are ready. The 'Go Generate' button is lit up—go check out your story!",
+    },
+  ];
+
+  const calculateSimilarity = (str1: string, str2: string): number => {
+    const str1Lower = str1.toLowerCase().trim();
+    const str2Lower = str2.toLowerCase().trim();
+
+    if (str1Lower === str2Lower) return 1;
+    if (str1Lower.length === 0 || str2Lower.length === 0) return 0;
+
+    const words1 = str1Lower.split(/\s+/);
+    const words2 = str2Lower.split(/\s+/);
+
+    const commonWords = words1.filter((word) => words2.includes(word));
+
+    return (2.0 * commonWords.length) / (words1.length + words2.length);
+  };
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const handleSend = () => {
-    if (message.trim()) {
-      setMessages([...messages, message]);
-      setMessage("");
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSend = async () => {
+    if (message.trim() && !isLoading) {
+      try {
+        setIsLoading(true);
+        const trimmedMessage = message.trim();
+
+        setMessages((prev) => [
+          ...prev,
+          { text: trimmedMessage, isUser: true },
+        ]);
+
+        const matchedScript = mockDialogues.find(
+          (script) => calculateSimilarity(trimmedMessage, script.question) > 0.8
+        );
+
+        if (matchedScript) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "",
+              isUser: false,
+            },
+          ]);
+
+          const replyText = matchedScript.answer;
+          let currentIndex = 0;
+
+          const typeNextChar = () => {
+            if (currentIndex < replyText.length) {
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                const lastMessage = newMessages[newMessages.length - 1];
+                lastMessage.text = replyText.slice(0, currentIndex + 1);
+                return newMessages;
+              });
+              currentIndex++;
+
+              const nextChar = replyText[currentIndex];
+              let delay = 50;
+
+              if ([".", "!", "?"].includes(nextChar)) {
+                delay = 400;
+              } else if ([",", ";"].includes(nextChar)) {
+                delay = 200;
+              }
+
+              setTimeout(typeNextChar, delay);
+            }
+          };
+
+          typeNextChar();
+        } else {
+          const response = await sendMessage(trimmedMessage);
+
+          if (response && response[0]?.text) {
+            setMessages((prev) => [
+              ...prev,
+              {
+                text: "",
+                isUser: false,
+              },
+            ]);
+
+            const replyText = response[0].text;
+            let currentIndex = 0;
+
+            const typeNextChar = () => {
+              if (currentIndex < replyText.length) {
+                setMessages((prev) => {
+                  const newMessages = [...prev];
+                  const lastMessage = newMessages[newMessages.length - 1];
+                  lastMessage.text = replyText.slice(0, currentIndex + 1);
+                  return newMessages;
+                });
+                currentIndex++;
+
+                const nextChar = replyText[currentIndex];
+                let delay = 50;
+
+                if ([".", "!", "?"].includes(nextChar)) {
+                  delay = 400;
+                } else if ([",", ";"].includes(nextChar)) {
+                  delay = 200;
+                }
+
+                setTimeout(typeNextChar, delay);
+              }
+            };
+
+            typeNextChar();
+          } else {
+            setMessages((prev) => [
+              ...prev,
+              {
+                text: "遇到一点问题，请稍后再试...",
+                isUser: false,
+              },
+            ]);
+          }
+        }
+
+        setMessage("");
+      } catch (error) {
+        console.error("Failed to send message:", error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: "遇到一点问题，请稍后再试...",
+            isUser: false,
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey && !isLoading) {
+      e.preventDefault(); // 阻止默认的换行行为
       handleSend();
     }
   };
@@ -327,12 +501,20 @@ const CreatePage: React.FC = () => {
     setCurrentDialogue(0);
     setDisplayedText("");
     setIsTyping(false);
+
+    // 确保状态更新后再开始第一句对话
+    Promise.resolve().then(() => {
+      if (dialogues[0]?.text) {
+        typeDialogue(dialogues[0].text);
+      }
+    });
   };
 
   const playNextDialogue = () => {
     if (!dialogues[currentDialogue]) return;
 
     if (isTyping) {
+      // 如果正在打字，直接显示完整文本
       setDisplayedText(dialogues[currentDialogue].text);
       setIsTyping(false);
       return;
@@ -345,35 +527,60 @@ const CreatePage: React.FC = () => {
         setCurrentScenario(nextDialogue.scenario);
       }
 
-      setIsTyping(true);
-      setDisplayedText("");
-
       setCurrentDialogue((prev) => prev + 1);
 
+      // 确保状态更新后再开始打字
       Promise.resolve().then(() => {
-        typeDialogue(nextDialogue.text);
+        if (nextDialogue.text) {
+          typeDialogue(nextDialogue.text);
+        }
       });
+    } else if (dialogues[currentDialogue].isEnding) {
+      // 如果是最后一幕，等待一会后重置游戏
+      setTimeout(() => {
+        setGameStarted(false);
+        setCurrentDialogue(0);
+        setShowTitle(true);
+      }, 2000);
     }
   };
 
   const typeDialogue = (text: string) => {
     if (!text) return;
 
-    let index = 0;
-    let content = "";
+    setIsTyping(true);
+    setDisplayedText("");
 
-    const timer = setInterval(() => {
-      if (index < text.length) {
-        content += text[index];
-        setDisplayedText(content);
-        index++;
+    let currentIndex = 0;
+
+    const typeNextChar = () => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.slice(0, currentIndex + 1));
+        currentIndex++;
+
+        // 根据标点符号调整延迟时间
+        const nextChar = text[currentIndex];
+        let delay = 30; // 默认打字速度
+
+        if ([".", "!", "?"].includes(nextChar)) {
+          delay = 500; // 句子结束停顿
+        } else if ([",", ";"].includes(nextChar)) {
+          delay = 250; // 逗号停顿
+        }
+
+        setTimeout(typeNextChar, delay);
       } else {
-        clearInterval(timer);
         setIsTyping(false);
       }
-    }, 50);
+    };
 
-    return () => clearInterval(timer);
+    typeNextChar();
+
+    // 返回清理函数
+    return () => {
+      setIsTyping(false);
+      setDisplayedText("");
+    };
   };
 
   useEffect(() => {
@@ -387,12 +594,19 @@ const CreatePage: React.FC = () => {
     handleStateToggle();
   }, []);
 
+  const scrollToBottom = () => {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div>
-      <div className="create-page-decoration">
-        <img src={createPageDecoration} alt="decoration" />
-      </div>
-      <BlackBackground height={1040}>
+      <div className="create-engine">
         <div className="epicverse-maker-container">
           <div className="epic-muse">
             <div className="muse-image">
@@ -403,7 +617,7 @@ const CreatePage: React.FC = () => {
               <div className="muse-selector-bg"></div>
               <h3 className="muse-selector-title">Select My Muse</h3>
               <div className="muse-buttons">
-                {[...Array(6)].map((_, index) => (
+                {[...Array(4)].map((_, index) => (
                   <button
                     key={index}
                     className={`muse-button ${
@@ -440,12 +654,47 @@ const CreatePage: React.FC = () => {
               ))}
             </div>
             <div className="chat-container">
-              <div className="chat-messages">
+              <div className="chat-messages" ref={chatMessagesRef}>
                 {messages.map((msg, index) => (
-                  <div key={index} className="message">
-                    {msg}
+                  <div
+                    key={index}
+                    className={`message ${
+                      msg.isUser ? "user-message" : "epicmuse-message"
+                    }`}
+                  >
+                    {!msg.isUser && (
+                      <div className="message-avatar">
+                        <img src={museImages[currentMuse]} alt="EpicMuse" />
+                      </div>
+                    )}
+                    <div className="message-content">
+                      {msg.text}
+                      {isLoading &&
+                        index === messages.length - 1 &&
+                        !msg.isUser && (
+                          <div className="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                        )}
+                    </div>
                   </div>
                 ))}
+                {isLoading && messages[messages.length - 1]?.isUser && (
+                  <div className="message epicmuse-message">
+                    <div className="message-avatar">
+                      <img src={museImages[currentMuse]} alt="EpicMuse" />
+                    </div>
+                    <div className="message-content">
+                      <div className="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div
                 className={`chat-input ${message.trim() ? "has-content" : ""}`}
@@ -454,11 +703,16 @@ const CreatePage: React.FC = () => {
                   placeholder="Type your message here..."
                   rows={3}
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={handleMessageChange}
                   onKeyPress={handleKeyPress}
+                  disabled={isLoading}
                 />
-                <button className="chat-send" onClick={handleSend}>
-                  ↑
+                <button
+                  className={`chat-send ${isLoading ? "loading" : ""}`}
+                  onClick={handleSend}
+                  disabled={isLoading || !message.trim()}
+                >
+                  send
                 </button>
               </div>
             </div>
@@ -525,10 +779,16 @@ const CreatePage: React.FC = () => {
             <button className="generate-button">Go Generate</button>
           </div>
         </div>
-      </BlackBackground>
+        <div className="banner-decoration">
+          <img src={bannerDecoration} alt="decoration" />
+        </div>
+      </div>
+
       <div className="create-page-body">
-        <div className="epicverse-player-state">
-          {isBuilding ? "BUILDING..." : "YOUR MASTERPIECE IS DONE!"}
+        <div
+          className={`epicverse-player-state ${isBuilding ? "building" : ""}`}
+        >
+          {isBuilding ? "BUILD" : "YOUR MASTERPIECE IS DONE"}
         </div>
         <div
           className={`epicverse-player-container ${
