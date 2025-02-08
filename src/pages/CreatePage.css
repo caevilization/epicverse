@@ -9,15 +9,90 @@
   font-weight: 600;
   margin-bottom: 4rem;
   text-align: center;
+  color: #333;
+  transition: all 0.5s ease;
 }
 
 .epicverse-player-container {
   width: 90%;
   max-width: 1365px;
-  height: 80vh;
-  max-height: 734px;
-  background-color: #d3d3d3;
+  aspect-ratio: 16/9;
   margin: 0 auto;
+  position: relative;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.epicverse-player-container.building {
+  background: linear-gradient(
+      45deg,
+      rgba(239, 207, 227, 0.1) 0%,
+      rgba(179, 222, 226, 0.1) 100%
+    ),
+    rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(179, 222, 226, 0.3);
+}
+
+.epicverse-player-container.completed {
+  background: linear-gradient(
+      45deg,
+      rgba(239, 207, 227, 0.2) 0%,
+      rgba(179, 222, 226, 0.2) 100%
+    ),
+    rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(179, 222, 226, 0.5);
+  box-shadow: 0 4px 20px rgba(179, 222, 226, 0.2);
+}
+
+/* 构建过程中的封面图片 */
+.building-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
+}
+
+/* 进度条容器 */
+.progress-bar {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 6px;
+  background: rgba(239, 207, 227, 0.2);
+  border-radius: 3px;
+}
+
+/* 进度条填充 */
+.progress-fill {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(90deg, #efcfe3 0%, #b3dee2 100%);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(239, 207, 227, 0.5);
+}
+
+/* 进度条女孩 */
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  right: -15px;
+  bottom: 15px;
+  width: 30px;
+  height: 30px;
+  background-image: url("../assets/decorations/progress-girl.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* 进度完成时隐藏进度条和女孩 */
+.progress-bar.completed {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* EPICVERSE FAQ */
@@ -108,7 +183,7 @@
 
 /* 调整最后一列的间距 */
 .epicverse-maker-container > *:last-child {
-  margin-left: 0.8rem;
+  margin-left: 1rem;
 }
 
 /* EPIC MUSE */
@@ -232,7 +307,7 @@
 
 .epicverse-chat {
   position: relative;
-  height: 100%;
+  height: 95%;
   padding: 2rem;
 }
 
@@ -242,22 +317,191 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(179, 222, 226, 0.1);
-  border: 2px solid #b3dee2;
+  mix-blend-mode: hard-light;
+  border-width: 1px 1px 3px 1px;
+  border-style: solid;
+  border-color: #b3dee2;
   border-radius: 1.5rem;
+  filter: drop-shadow(0 -4px 4px #b3dee2);
 }
 
+/* 左上角点 */
+.epicverse-chat-bg::before {
+  content: "";
+  position: absolute;
+  width: 0.4rem;
+  height: 0.4rem;
+  left: 1rem;
+  top: 1rem;
+  border-radius: 50%;
+  background: #efcfe3;
+}
+
+/* 左下角的两个点 */
+.epicverse-chat-bg .dot-left-bottom {
+  position: absolute;
+  left: 1.2rem;
+  bottom: 1.2rem;
+}
+
+.epicverse-chat-bg .dot-left-bottom-1 {
+  position: absolute;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: #b3dee2;
+}
+
+.epicverse-chat-bg .dot-left-bottom-2 {
+  position: absolute;
+  margin-top: 0.1rem;
+  width: 0.2rem;
+  height: 0.2rem;
+  left: 1rem;
+  border-radius: 50%;
+  background: #b3dee2;
+}
+
+/* 右下角的三个点 */
+.epicverse-chat-bg .dot-right-bottom {
+  position: absolute;
+  right: 1.4rem;
+  bottom: 1.2rem;
+}
+
+.epicverse-chat-bg .dot-right-bottom-1 {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: #b3dee2;
+}
+
+.epicverse-chat-bg .dot-right-bottom-2 {
+  position: absolute;
+  width: 0.25rem;
+  height: 0.25rem;
+  right: 1rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: #efcfe3;
+}
+
+.epicverse-chat-bg .dot-right-bottom-3 {
+  position: absolute;
+  width: 0.25rem;
+  height: 0.25rem;
+  right: 0.4rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: #efcfe3;
+}
+
+/* 右上方的两个水平点 */
+.epicverse-chat-bg .dots-right-top {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.epicverse-chat-bg .dots-right-top .dot-1,
+.epicverse-chat-bg .dots-right-top .dot-2 {
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: #b3dee2;
+}
+
+/* 外侧竖排点 */
+.epicverse-chat .vertical-dots {
+  position: absolute;
+  right: -1rem;
+  top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.epicverse-chat .vertical-dots .dot {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: #b3dee2;
+}
+
+/* 特殊样式的点 */
+.epicverse-chat .vertical-dots .dot:nth-child(3),
+.epicverse-chat .vertical-dots .dot:nth-child(4) {
+  background: #efcfe3;
+}
+
+.epicverse-chat .vertical-dots .dot:nth-child(8) {
+  margin-top: 0.8rem;
+  width: 0.2rem;
+  height: 0.2rem;
+}
+
+.epicverse-chat::after {
+  content: "C\A R\A E\A A\A T\A E\A \A S\A H\A A\A R\A E\A \A E\A A\A R\A N";
+  white-space: pre;
+  position: absolute;
+  right: -1.2rem;
+  bottom: 2rem;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #b3dee2;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.1rem;
+}
+
+/* CHAT with EPICMUSE */
 .chat-container {
   position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  width: 95%;
+  height: 98%;
+  margin: auto;
+  border-radius: 2rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* 背景渐变 */
+.chat-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(179, 223, 227, 0.02) 0%,
+    rgba(179, 222, 226, 0.1) 10%,
+    rgba(179, 223, 227, 0.2) 50%,
+    rgba(179, 222, 226, 0.3) 100%
+  );
+  z-index: 1;
+}
+
+/* 渐变边框 */
+.chat-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(239, 207, 227, 1) 0%,
+    rgba(179, 222, 226, 1) 48%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  border-radius: 2rem;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  mix-blend-mode: hard-light;
+  padding: 1px;
+  z-index: 1;
 }
 
 .chat-messages {
@@ -268,45 +512,63 @@
 }
 
 .chat-input {
-  padding: 2rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
+  position: relative;
+  z-index: 3;
+  padding: 1.2rem 1.5rem;
 }
 
 .chat-input textarea {
-  flex: 1;
-  min-height: 100px;
-  padding: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  max-height: 120px;
+  padding: 0.8rem;
+  padding-right: 6rem;
+  border: 1px solid rgba(178, 200, 203, 0.3);
   border-radius: 0.5rem;
   resize: none;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.5;
+  background: rgba(178, 200, 203);
+  box-shadow: 0.03rem 0.03rem 0.1rem rgba(178, 200, 203);
 }
 
 .chat-input textarea:focus {
   outline: none;
-  border-color: #333;
+}
+
+.chat-input textarea::placeholder {
+  color: #333;
+  opacity: 0.6;
 }
 
 .chat-send {
-  padding: 1rem 2rem;
-  background: #333;
+  position: absolute;
+  right: 2.5rem;
+  bottom: 2rem;
+  padding: 0.3rem 0.55rem;
+  background: #999; /* 默认灰色 */
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 50%;
   font-family: "Syne", sans-serif;
   font-size: 1rem;
-  cursor: pointer;
+  font-weight: 600;
+  cursor: default; /* 默认不可点击状态 */
   transition: all 0.3s ease;
-  height: fit-content;
+  pointer-events: none; /* 默认不响应hover */
 }
 
-.chat-send:hover {
+/* 当有输入内容时的样式 */
+.chat-input.has-content .chat-send {
   background: #000;
+  cursor: pointer;
+  pointer-events: all; /* 恢复hover响应 */
+}
+
+.chat-input.has-content .chat-send:hover {
+  background: #000; /* hover时保持黑色 */
   transform: translateY(-2px);
 }
 
@@ -317,43 +579,283 @@
   gap: 2rem;
   height: 100%;
   background: transparent;
-  padding: 2rem 0;
+  padding-top: 0.8rem;
 }
 
-.step-box {
-  flex: 1;
-  border-radius: 1rem;
+/* 通用 tooltip 样式 */
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tooltip-container:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip {
+  position: absolute;
+  top: -2.5rem;
+  right: -1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -0.4rem;
+  right: 1rem;
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+  border-top: 0.4rem solid rgba(0, 0, 0, 0.8);
+}
+
+/* Step1 Box 样式调整 */
+.step1-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #b3dee2;
+  border-radius: 1rem 0 0 0;
+  padding: 1.5rem 1rem;
+  height: 22%;
+  width: 96%;
+  margin-left: auto;
+}
+
+.step1-top {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.step1-decoration {
+  width: 10.2rem;
+  height: 2rem;
+  overflow: hidden;
+  opacity: 0.6;
+}
+
+.step1-decoration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.step1-title {
+  position: relative;
   font-family: "Syne", sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #333;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background: white;
-  border: 2px solid transparent;
+  color: #b3dee2;
+  padding-bottom: 0.5rem;
 }
 
-.step-box.blue {
-  border-color: #b3dee2;
+.step1-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 0 0.5rem 0 0;
 }
 
-.step-box.pink {
-  border-color: #efcfe3;
+/* 渐变边框 */
+.step1-preview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(
+    -30deg,
+    rgba(239, 207, 227, 1) 0%,
+    rgba(179, 222, 226, 1) 30%,
+    rgba(0, 0, 0, 1) 80%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
-.generate-button {
+.step1-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Step 2 Box */
+.step2-wrapper {
+  margin-top: -0.8rem;
+  height: 30%;
+}
+
+.step2-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.step2-header h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  color: #efcfe3;
+}
+
+/* 添加菱形装饰 */
+.step2-header h3::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  background: #efcfe3;
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+.decoration-shapes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-right: 1.5rem;
+  margin-top: -0.3rem;
+}
+
+.parallelogram {
+  width: 0.2rem;
+  height: 0.45rem;
+  background: #b3dee2;
+  transform: skew(-20deg);
+  margin-bottom: 0.5rem;
+}
+
+.step2-box {
+  position: relative;
+  padding: 1.5rem;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.step2-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(239, 207, 227, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  border-radius: 1rem 1rem 0 0;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.character-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  height: 100%;
+  min-width: 100%;
+}
+
+.character-item img {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  border: 1px solid rgba(179, 222, 226, 0.3);
+}
+
+.character-item span {
+  position: relative;
+  font-size: 0.5rem;
+  color: #b3dee2;
+  letter-spacing: 0.05rem;
+  z-index: 2;
+  padding: 0.1rem 0.3rem;
+}
+
+/* 添加文本框背景 */
+.character-item span::before {
+  content: "";
+  position: absolute;
+  inset: -0.2rem -0.5rem;
+  border: 1px solid #b3dee2;
+  filter: drop-shadow(0 0 2px #b3dee2);
+  z-index: -1;
+}
+
+/* Step 3 Box */
+.step3-box {
+  display: flex;
+  position: relative;
+  height: 30%;
+}
+
+.step3-content {
+  position: relative;
+  width: 50%;
+  height: 100%;
   padding: 1rem;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.step3-content h3 {
   font-family: "Syne", sans-serif;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: #b3dee2;
+  position: relative;
+  top: 18%;
+  z-index: 2;
+}
+
+.step3-content img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 85%;
+  object-fit: cover;
+  opacity: 0.2;
+}
+
+.step3-preview {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.step3-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* CREATE PAGE DECORATION */
@@ -368,4 +870,265 @@
   width: 8rem;
   height: auto;
   display: block;
+}
+
+/* 生成按钮样式 */
+.generate-button {
+  align-self: center;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(
+    45deg,
+    rgba(239, 207, 227, 0.5) 0%,
+    rgba(179, 222, 226, 0.5) 100%
+  );
+  color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 0.5rem;
+  font-family: "Syne", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(179, 222, 226, 0.1);
+}
+
+/* 激活状态 */
+.generate-button.active {
+  background: linear-gradient(
+    45deg,
+    rgba(239, 207, 227, 1) 0%,
+    rgba(179, 222, 226, 1) 100%
+  );
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(179, 222, 226, 0.3);
+}
+
+.generate-button.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(179, 222, 226, 0.4);
+}
+
+/* 游戏容器 */
+.game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #000;
+  transition: background-image 1s ease;
+}
+
+/* 游戏标题界面 */
+.game-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  z-index: 2;
+}
+
+.game-title h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 3rem;
+  color: white;
+  text-shadow: 0 0 20px rgba(239, 207, 227, 0.8);
+  letter-spacing: 0.1rem;
+}
+
+.start-button {
+  padding: 1rem 3rem;
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: rgba(239, 207, 227, 0.1);
+  border: 2px solid #efcfe3;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(239, 207, 227, 0.5);
+  box-shadow: 0 0 15px rgba(239, 207, 227, 0.3);
+}
+
+.start-button:hover {
+  background: rgba(239, 207, 227, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(239, 207, 227, 0.4);
+}
+
+/* 游戏场景 */
+.game-scene {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 角色显示 */
+.character-display {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  height: 70%;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+  transition: all 0.5s ease;
+}
+
+.character-display.left {
+  left: 25%;
+}
+
+.character-display.right {
+  left: 75%;
+}
+
+.character-display img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* 点击继续指示器动画 */
+.continue-indicator {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  animation: pulse 1s ease infinite;
+  padding-right: 1.5rem;
+}
+
+.continue-indicator::after {
+  content: "›";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(5px);
+  }
+}
+
+/* 对话框点击效果 */
+.dialogue-box {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(239, 207, 227, 0.3);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dialogue-box:hover {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: rgba(239, 207, 227, 0.4);
+}
+
+.dialogue-box:active {
+  transform: translateX(-50%) scale(0.99);
+}
+
+.character-name {
+  color: #efcfe3;
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.dialogue-text {
+  color: white;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  min-height: 3rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* 移除测试按钮相关样式 */
+.test-state-button {
+  display: none;
+}
+
+/* 角色效果 */
+.character-display.fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.character-display.slideLeft {
+  animation: slideLeft 0.5s ease forwards;
+}
+
+.character-display.slideRight {
+  animation: slideRight 0.5s ease forwards;
+}
+
+/* 场景切换效果 */
+.game-container {
+  transition: background-image 1s ease;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translate(50px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translate(-50px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
 }
