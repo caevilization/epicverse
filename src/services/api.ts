@@ -6,7 +6,7 @@ interface MessagePayload {
 export const sendMessage = async (text: string): Promise<any> => {
   try {
     const response = await fetch(
-      "http://54.145.197.118:3000/c4d94237-417b-0fce-bda3-1d35803bfeea/message",
+      "agent-api/c4d94237-417b-0fce-bda3-1d35803bfeea/message",
       {
         method: "POST",
         headers: {
