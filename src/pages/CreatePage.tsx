@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./CreatePage.css";
-import bannerDecoration from "../assets/images/banner-decoration.png";
+import engineDecoration from "../assets/images/banner-decoration.png";
 import epicmuse1 from "../assets/epicmuse/epicmuse1.png";
 import epicmuse2 from "../assets/epicmuse/epicmuse2.jpg";
 import epicmuse3 from "../assets/epicmuse/epicmuse3.jpg";
@@ -47,6 +47,15 @@ interface DialogueScript {
   answer: string;
 }
 
+interface StepData {
+  storyUI: string | null;
+  characters: Array<{
+    name: string;
+    image: string;
+  }> | null;
+  storylineConfirmed: boolean;
+}
+
 const CreatePage: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [currentMuse, setCurrentMuse] = useState(0);
@@ -63,21 +72,13 @@ const CreatePage: React.FC = () => {
   const [currentScenario, setCurrentScenario] = useState(scenario1);
   const [isLoading, setIsLoading] = useState(false);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
-
-  const characters = [
-    {
-      name: "Lori",
-      image: character1,
-    },
-    {
-      name: "Phi",
-      image: character2,
-    },
-    {
-      name: "Gandalf",
-      image: character3,
-    },
-  ];
+  const [stepData, setStepData] = useState<StepData>({
+    storyUI: null,
+    characters: null,
+    storylineConfirmed: false,
+  });
+  const [showPlayer, setShowPlayer] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const faqItems: FAQItem[] = [
     {
@@ -164,7 +165,7 @@ const CreatePage: React.FC = () => {
       position: "left",
     },
     {
-      character: "Lori",
+      character: "",
       text: "Quickly search for my binoculars in my pocket.",
       scenario: scenario1,
       image: "",
@@ -292,37 +293,37 @@ const CreatePage: React.FC = () => {
     {
       question: "Hello",
       answer:
-        "Hi, I'm your EpicMuse! Welcome to the wonderful world of AVG games. Today, I'll guide you through creating your first AVG game via our conversation.",
+        "Hi, I'm your EpicMuse! Welcome to the wonderful world of AVG games. Today, I'll guide you step-by-step through creating your very first AVG game—just follow my lead!",
     },
     {
       question: "Show me!",
       answer:
-        "Sure! We'll break it down into three steps. First, I recommend starting with a Japanese school mystery story. Japan is famous for its AVG games and visual novels!",
+        "Absolutely! Let’s break it down into three simple steps. First, I recommend starting with a Japanese school mystery story. Japan is renowned for its AVG and galgame culture, and it’s the perfect theme to kick off your creative journey!",
     },
     {
       question: "Sounds good",
       answer:
-        "Based on this theme, I've determined the UI style: xxxx. Please confirm if this works for you.",
+        "Great choice! Based on this theme, I recommend a UI style featuring soft pastel colors and an anime-inspired aesthetic. Does this sound like a good fit for your story?",
     },
     {
-      question: "I confirm",
+      question: "I confirm the ui style",
       answer:
-        "Now, you can see the sample image I generated for you on the right side of the UI. Next, let's design the characters. I suggest three main characters: the heroine xx, a mysterious male lead, and a supporting male character xx.",
+        "Fantastic! Now, take a look at the sample image I’ve generated for you on the right side. Next up, let’s bring your story to life with some characters. I suggest three main roles: the heroine Lori, a mysterious male lead, and a supporting male character named Phi. How does that sound?",
     },
     {
       question: "A classic character lineup. What about their designs?",
       answer:
-        "Based on the UI style we chose earlier, I found some publicly shared, free-to-use character illustrations in the community. If you'd like to use them, please confirm.",
+        "I’m glad you like it! Based on the UI style we chose earlier, I’ve curated some publicly shared, free-to-use character illustrations from the community. They’re a perfect match for your story. If you’re happy with them, just confirm, and we’ll move forward!",
     },
     {
-      question: "I confirm",
+      question: "The character designs are great and ok with me!",
       answer:
-        "Great! Now the character setup is complete. Finally, I'll help you generate the first scene of the story... You can click the link to preview it. If it looks good, please confirm.",
+        "Wonderful! With the characters all set, it’s time to craft the first scene of your story: *Lori arrives at a new school with a mysterious clock tower legend and encounters two enigmatic boys.* If this setup excites you, please confirm, and we’ll bring it to life!",
     },
     {
-      question: "I confirm",
+      question: "Interesting story, confirm it!",
       answer:
-        "Awesome! Now all the essential elements of a basic AVG game are ready. The 'Go Generate' button is lit up—go check out your story!",
+        "That’s the spirit! All the essential elements of your AVG game are now in place. The 'Go Generate' button is glowing—click it to see your story come alive! I can’t wait for you to experience it!",
     },
   ];
 
@@ -604,9 +605,84 @@ const CreatePage: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 2];
+    if (!lastMessage || !lastMessage.isUser) return;
+
+    // 根据用户的输入来更新步骤数据
+    switch (lastMessage.text.toLowerCase().trim()) {
+      case "i confirm the ui style":
+        setStepData((prev) => ({
+          ...prev,
+          storyUI: storyUi,
+        }));
+        break;
+
+      case "the character designs are great and ok with me!":
+        setStepData((prev) => ({
+          ...prev,
+          characters: [
+            {
+              name: "Lori",
+              image: character1,
+            },
+            {
+              name: "???",
+              image: character2,
+            },
+            {
+              name: "Phi",
+              image: character3,
+            },
+          ],
+        }));
+        break;
+
+      case "interesting story, confirm it!":
+        setStepData((prev) => ({
+          ...prev,
+          storylineConfirmed: true,
+        }));
+        break;
+    }
+  }, [messages]);
+
+  const handleGenerate = () => {
+    if (isCompleted) return;
+
+    setShowPlayer(true);
+    setIsBuilding(true);
+    setProgress(0);
+
+    // 添加平滑滚动
+    setTimeout(() => {
+      window.scrollTo({
+        top: window.innerHeight * 0.8, // 滚动到页面高度的 80%
+        behavior: "smooth",
+      });
+    }, 100); // 短暂延迟确保 player 已渲染
+
+    // 模拟构建进度
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setIsBuilding(false);
+          setShowTitle(true);
+          setIsCompleted(true);
+          return 100;
+        }
+        return prev + 1;
+      });
+    }, 50);
+  };
+
   return (
     <div>
       <div className="create-engine">
+        <div className="engine-decoration">
+          <img src={engineDecoration} alt="decoration" />
+        </div>
         <div className="epicverse-maker-container">
           <div className="epic-muse">
             <div className="muse-image">
@@ -731,7 +807,11 @@ const CreatePage: React.FC = () => {
                 </div>
               </div>
               <div className="step1-preview">
-                <img src={storyUi} alt="story ui" />
+                {stepData.storyUI ? (
+                  <img src={stepData.storyUI} alt="story ui" />
+                ) : (
+                  <div className="empty-preview">Waiting for UI design...</div>
+                )}
               </div>
             </div>
 
@@ -751,12 +831,18 @@ const CreatePage: React.FC = () => {
               </div>
               <div className="step2-box">
                 <div className="character-grid">
-                  {characters.map((char, index) => (
-                    <div key={index} className="character-item">
-                      <img src={char.image} alt={char.name} />
-                      <span>{char.name}</span>
+                  {stepData.characters ? (
+                    stepData.characters.map((char, index) => (
+                      <div key={index} className="character-item">
+                        <img src={char.image} alt={char.name} />
+                        <span>{char.name}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="empty-preview">
+                      Waiting for character designs...
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -769,99 +855,121 @@ const CreatePage: React.FC = () => {
                     Write and upload your game script
                   </div>
                 </h3>
-                <h3>eedwed</h3>
-                <img src={upLoadDecoration} alt="upload decoration" />
+                {stepData.storylineConfirmed ? (
+                  <>
+                    <h3>Story Confirmed!</h3>
+                    <img src={upLoadDecoration} alt="upload decoration" />
+                  </>
+                ) : (
+                  <div className="empty-preview">
+                    Waiting for story confirmation...
+                  </div>
+                )}
               </div>
               <div className="step3-preview">
                 <img src={step3Decoration} alt="script icon" />
               </div>
             </div>
-            <button className="generate-button">Go Generate</button>
+            <button
+              className={`generate-button ${
+                stepData.storylineConfirmed && !isCompleted ? "active" : ""
+              }`}
+              disabled={!stepData.storylineConfirmed || isCompleted}
+              onClick={handleGenerate}
+            >
+              {isCompleted ? "Generated" : "Go Generate"}
+            </button>
           </div>
-        </div>
-        <div className="banner-decoration">
-          <img src={bannerDecoration} alt="decoration" />
         </div>
       </div>
 
       <div className="create-page-body">
-        <div
-          className={`epicverse-player-state ${isBuilding ? "building" : ""}`}
-        >
-          {isBuilding ? "BUILD" : "YOUR MASTERPIECE IS DONE"}
-        </div>
-        <div
-          className={`epicverse-player-container ${
-            isBuilding ? "building" : "completed"
-          }`}
-        >
-          {isBuilding ? (
-            <>
-              <div
-                className="building-cover"
-                style={{
-                  backgroundImage: `url(${coverImage})`,
-                  height: `${progress}%`,
-                }}
-              />
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </>
-          ) : (
+        {showPlayer && (
+          <>
             <div
-              className="game-container"
-              style={{
-                backgroundImage: `url(${
-                  showGameScene ? currentScenario : coverImage
-                })`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className={`epicverse-player-state ${
+                isBuilding ? "building" : ""
+              }`}
             >
-              {!gameStarted && showTitle && (
-                <div className="game-title">
-                  <h1>Echoes of the Clocktower</h1>
-                  <button className="start-button" onClick={handleGameStart}>
-                    Start Game
-                  </button>
-                </div>
-              )}
-              {gameStarted && dialogues[currentDialogue] && (
+              {isBuilding ? "BUILD" : "YOUR MASTERPIECE IS DONE"}
+            </div>
+            <div
+              className={`epicverse-player-container ${
+                isBuilding ? "building" : "completed"
+              }`}
+            >
+              {isBuilding ? (
                 <>
-                  <div className="game-scene">
-                    {dialogues[currentDialogue].image && (
-                      <div
-                        className={`character-display ${
-                          dialogues[currentDialogue].position
-                        } ${dialogues[currentDialogue].effect || ""}`}
-                      >
-                        <img
-                          src={dialogues[currentDialogue].image}
-                          alt={dialogues[currentDialogue].character}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="dialogue-box" onClick={playNextDialogue}>
-                    <div className="character-name">
-                      {dialogues[currentDialogue].character}
-                    </div>
-                    <div className="dialogue-text">{displayedText}</div>
-                    {!isTyping && (
-                      <div className="continue-indicator">
-                        Click to continue...
-                      </div>
-                    )}
+                  <div
+                    className="building-cover"
+                    style={{
+                      backgroundImage: `url(${coverImage})`,
+                      height: `${progress}%`,
+                    }}
+                  />
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${progress}%` }}
+                    />
                   </div>
                 </>
+              ) : (
+                <div
+                  className="game-container"
+                  style={{
+                    backgroundImage: `url(${
+                      showGameScene ? currentScenario : coverImage
+                    })`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  {!gameStarted && showTitle && (
+                    <div className="game-title">
+                      <h1>Echoes of the Clocktower</h1>
+                      <button
+                        className="start-button"
+                        onClick={handleGameStart}
+                      >
+                        Start Game
+                      </button>
+                    </div>
+                  )}
+                  {gameStarted && dialogues[currentDialogue] && (
+                    <>
+                      <div className="game-scene">
+                        {dialogues[currentDialogue].image && (
+                          <div
+                            className={`character-display ${
+                              dialogues[currentDialogue].position
+                            } ${dialogues[currentDialogue].effect || ""}`}
+                          >
+                            <img
+                              src={dialogues[currentDialogue].image}
+                              alt={dialogues[currentDialogue].character}
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="dialogue-box" onClick={playNextDialogue}>
+                        <div className="character-name">
+                          {dialogues[currentDialogue].character}
+                        </div>
+                        <div className="dialogue-text">{displayedText}</div>
+                        {!isTyping && (
+                          <div className="continue-indicator">
+                            Click to continue...
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
+          </>
+        )}
         <div className="faq-section">
           <h2 className="faq-title">EpicVerse FAQ</h2>
           <div className="faq-list">
