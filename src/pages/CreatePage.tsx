@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import "./CreatePage.css";
 import engineDecoration from "../assets/images/banner-decoration.png";
 import epicmuse1 from "../assets/epicmuse/epicmuse1.png";
-import epicmuse2 from "../assets/epicmuse/epicmuse2.jpg";
-import epicmuse3 from "../assets/epicmuse/epicmuse3.jpg";
+import epicmuse2 from "../assets/epicmuse/epicmuse2.png";
+import epicmuse3 from "../assets/epicmuse/epicmuse3.png";
 import epicmuse4 from "../assets/epicmuse/epicmuse4.png";
 import step1BoxDecoration from "../assets/images/step1-box-decoration.jpg";
 import storyUi from "../assets/images/story-ui.jpg";
@@ -11,14 +11,15 @@ import character1 from "../assets/materials/character1.png";
 import character2 from "../assets/materials/character2.png";
 import character3 from "../assets/materials/character3.png";
 import character4 from "../assets/materials/character4.png";
-import upLoadDecoration from "../assets/images/step3-upload-decoration.jpg";
-import step3Decoration from "../assets/images/step3-decoration.jpg";
+import upLoadDecoration from "../assets/decorations/confirm-stamp.png";
+import step3Decoration from "../assets/decorations/storyline-decoration.png";
 import coverImage from "../assets/materials/cover.png";
 import scenario1 from "../assets/materials/scenario1.png";
 import scenario2 from "../assets/materials/scenario2.png";
 import scenario3 from "../assets/materials/scenario3.png";
 import scenario4 from "../assets/materials/scenario4.png";
 import scenario5 from "../assets/materials/scenario5.png";
+import pageDecoration from "../assets/decorations/page-decoration.png";
 import { sendMessage } from "../services/api.ts";
 
 interface FAQItem {
@@ -56,6 +57,12 @@ interface StepData {
   storylineConfirmed: boolean;
 }
 
+interface Muse {
+  id: number;
+  name: string;
+  image: string;
+}
+
 const CreatePage: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [currentMuse, setCurrentMuse] = useState(0);
@@ -79,6 +86,29 @@ const CreatePage: React.FC = () => {
   });
   const [showPlayer, setShowPlayer] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const muses: Muse[] = [
+    {
+      id: 1,
+      name: "Zeta",
+      image: epicmuse1,
+    },
+    {
+      id: 2,
+      name: "Hana",
+      image: epicmuse2,
+    },
+    {
+      id: 3,
+      name: "Aurora",
+      image: epicmuse3,
+    },
+    {
+      id: 4,
+      name: "Yuè Yáo",
+      image: epicmuse4,
+    },
+  ];
 
   const faqItems: FAQItem[] = [
     {
@@ -112,8 +142,6 @@ const CreatePage: React.FC = () => {
         "We provide comprehensive technical support and community assistance. You can refer to detailed help documentation or seek advice from other creators in the community. If you encounter technical issues, our support team is always ready to assist you.",
     },
   ];
-
-  const museImages = [epicmuse1, epicmuse2, epicmuse3, epicmuse4];
 
   const dialogues: Dialogue[] = [
     {
@@ -298,7 +326,7 @@ const CreatePage: React.FC = () => {
     {
       question: "Show me!",
       answer:
-        "Absolutely! Let’s break it down into three simple steps. First, I recommend starting with a Japanese school mystery story. Japan is renowned for its AVG and galgame culture, and it’s the perfect theme to kick off your creative journey!",
+        "Absolutely! Let's break it down into three simple steps. First, I recommend starting with a Japanese school mystery story. Japan is renowned for its AVG and galgame culture, and it's the perfect theme to kick off your creative journey!",
     },
     {
       question: "Sounds good",
@@ -308,22 +336,22 @@ const CreatePage: React.FC = () => {
     {
       question: "I confirm the ui style",
       answer:
-        "Fantastic! Now, take a look at the sample image I’ve generated for you on the right side. Next up, let’s bring your story to life with some characters. I suggest three main roles: the heroine Lori, a mysterious male lead, and a supporting male character named Phi. How does that sound?",
+        "Fantastic! Now, take a look at the sample image I've generated for you on the right side. Next up, let's bring your story to life with some characters. I suggest three main roles: the heroine Lori, a mysterious male lead, and a supporting male character named Phi. How does that sound?",
     },
     {
       question: "A classic character lineup. What about their designs?",
       answer:
-        "I’m glad you like it! Based on the UI style we chose earlier, I’ve curated some publicly shared, free-to-use character illustrations from the community. They’re a perfect match for your story. If you’re happy with them, just confirm, and we’ll move forward!",
+        "I'm glad you like it! Based on the UI style we chose earlier, I've curated some publicly shared, free-to-use character illustrations from the community. They're a perfect match for your story. If you're happy with them, just confirm, and we'll move forward!",
     },
     {
       question: "The character designs are great and ok with me!",
       answer:
-        "Wonderful! With the characters all set, it’s time to craft the first scene of your story: *Lori arrives at a new school with a mysterious clock tower legend and encounters two enigmatic boys.* If this setup excites you, please confirm, and we’ll bring it to life!",
+        "Wonderful! With the characters all set, it's time to craft the first scene of your story: *Lori arrives at a new school with a mysterious clock tower legend and encounters two enigmatic boys.* If this setup excites you, please confirm, and we'll bring it to life!",
     },
     {
       question: "Interesting story, confirm it!",
       answer:
-        "That’s the spirit! All the essential elements of your AVG game are now in place. The 'Go Generate' button is glowing—click it to see your story come alive! I can’t wait for you to experience it!",
+        "That's the spirit! All the essential elements of your AVG game are now in place. The 'Go Generate' button is glowing—click it to see your story come alive! I can't wait for you to experience it!",
     },
   ];
 
@@ -657,10 +685,10 @@ const CreatePage: React.FC = () => {
     // 添加平滑滚动
     setTimeout(() => {
       window.scrollTo({
-        top: window.innerHeight * 0.8, // 滚动到页面高度的 80%
+        top: window.innerHeight * 1, // 滚动到页面高度的 80%
         behavior: "smooth",
       });
-    }, 100); // 短暂延迟确保 player 已渲染
+    }); // 短暂延迟确保 player 已渲染
 
     // 模拟构建进度
     const interval = setInterval(() => {
@@ -686,8 +714,13 @@ const CreatePage: React.FC = () => {
         <div className="epicverse-maker-container">
           <div className="epic-muse">
             <div className="muse-image">
-              <img src={museImages[currentMuse]} alt="Epic Muse" />
-              <div className="muse-image-overlay">Your EpicMuse</div>
+              <img
+                src={muses[currentMuse].image}
+                alt={muses[currentMuse].name}
+              />
+              <div className="muse-image-overlay">
+                <div className="muse-name">Your Epicmuse</div>
+              </div>
             </div>
             <div className="muse-selector-outer">
               <div className="muse-selector-bg"></div>
@@ -700,9 +733,9 @@ const CreatePage: React.FC = () => {
                       index === currentMuse ? "active" : ""
                     }`}
                     onClick={() => setCurrentMuse(index)}
-                    style={{ backgroundImage: `url(${museImages[index]})` }}
+                    style={{ backgroundImage: `url(${muses[index].image})` }}
                   >
-                    Muse {index + 1}
+                    {muses[index].name}
                   </button>
                 ))}
               </div>
@@ -740,7 +773,7 @@ const CreatePage: React.FC = () => {
                   >
                     {!msg.isUser && (
                       <div className="message-avatar">
-                        <img src={museImages[currentMuse]} alt="EpicMuse" />
+                        <img src={muses[currentMuse].image} alt="EpicMuse" />
                       </div>
                     )}
                     <div className="message-content">
@@ -760,7 +793,7 @@ const CreatePage: React.FC = () => {
                 {isLoading && messages[messages.length - 1]?.isUser && (
                   <div className="message epicmuse-message">
                     <div className="message-avatar">
-                      <img src={museImages[currentMuse]} alt="EpicMuse" />
+                      <img src={muses[currentMuse].image} alt="EpicMuse" />
                     </div>
                     <div className="message-content">
                       <div className="typing-indicator">
@@ -857,7 +890,6 @@ const CreatePage: React.FC = () => {
                 </h3>
                 {stepData.storylineConfirmed ? (
                   <>
-                    <h3>Story Confirmed!</h3>
                     <img src={upLoadDecoration} alt="upload decoration" />
                   </>
                 ) : (
@@ -886,13 +918,13 @@ const CreatePage: React.FC = () => {
       <div className="create-page-body">
         {showPlayer && (
           <>
-            <div
+            {/* <div
               className={`epicverse-player-state ${
                 isBuilding ? "building" : ""
               }`}
             >
-              {isBuilding ? "BUILD" : "YOUR MASTERPIECE IS DONE"}
-            </div>
+              {isBuilding ? "BUILDING" : "YOUR MASTERPIECE IS DONE"}
+            </div> */}
             <div
               className={`epicverse-player-container ${
                 isBuilding ? "building" : "completed"
@@ -992,6 +1024,13 @@ const CreatePage: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="decoration-for-page-wrapper">
+        <img
+          src={pageDecoration}
+          alt="decoration"
+          className="decoration-for-page"
+        />
       </div>
     </div>
   );

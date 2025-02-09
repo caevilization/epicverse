@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import BlackBackground from "../components/BlackBackground.tsx";
-import homeBanner from "../assets/images/home-banner.jpg";
-import pageDecoration from "../assets/images/page-decoration.png";
+import homeBanner from "../assets/images/home-banner.png";
+import bannerDecoration from "../assets/images/banner-decoration.png";
+import pageDecoration from "../assets/decorations/page-decoration.png";
 
 const features = [
   {
@@ -48,20 +48,21 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <BlackBackground height={58}>
+      <div className="home-banner-wrapper">
         <div className="home-banner">
           <img src={homeBanner} alt="Welcome to EpicVerse" />
           <div className="welcome-text">
-            <p>
-              Powered by AI, bring your stories and games to life in a vibrant,
-              decentralized Web3 world.
-            </p>
-            <p className="welcome-link" onClick={handleGetStarted}>
-              Your Imagination, Your Rewards! {">>"}
-            </p>
+            <h3>Welcome to EpicVerse!</h3>
+            <p>A world where your story becomes a masterpiece.</p>
+            <button className="welcome-link" onClick={handleGetStarted}>
+              Create. Share. Earn! {">>"}
+            </button>
           </div>
         </div>
-      </BlackBackground>
+        <div className="banner-decoration">
+          <img src={bannerDecoration} alt="decoration" />
+        </div>
+      </div>
       <div className="home-content">
         <div className="home-title">
           EpicVerse - Empowering Your Creativity and Earnings!

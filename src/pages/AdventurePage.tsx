@@ -6,6 +6,12 @@ import posterOne from "../assets/images/poster-placeholder-one.png";
 import posterTwo from "../assets/images/poster-placeholder-two.png";
 import newGameOne from "../assets/images/new-game-one.png";
 import newGameTwo from "../assets/images/new-game-two.jpg";
+import game1 from "../assets/images/game1.png";
+import game2 from "../assets/images/game2.png";
+import game3 from "../assets/images/game3.png";
+import game4 from "../assets/images/game4.png";
+import game5 from "../assets/images/game5.png";
+import game6 from "../assets/images/game6.png";
 import { Link } from "react-router-dom";
 
 const AdventurePage: React.FC = () => {
@@ -27,51 +33,51 @@ const AdventurePage: React.FC = () => {
   const games = [
     {
       id: 1,
-      src: newGameOne,
+      src: game1,
       alt: "Game 1",
-      title: "Adventure Quest",
-      author: "John Doe",
-      players: 1234,
+      title: "Time Travelers",
+      author: "Emma Chen",
+      players: 2156,
     },
     {
       id: 2,
-      src: newGameTwo,
+      src: game2,
       alt: "Game 2",
-      title: "Mystery Island",
-      author: "Jane Smith",
-      players: 856,
+      title: "Enchanted Academy",
+      author: "Alex Rivera",
+      players: 1893,
     },
     {
       id: 3,
-      src: "game-placeholder.jpg",
+      src: game3,
       alt: "Game 3",
-      title: "Coming Soon",
-      author: "Unknown",
-      players: 0,
+      title: "Cyber Detective",
+      author: "Sarah Kim",
+      players: 1567,
     },
     {
       id: 4,
-      src: "game-placeholder.jpg",
+      src: game4,
       alt: "Game 4",
-      title: "Coming Soon",
-      author: "Unknown",
-      players: 0,
+      title: "Ocean's Secret",
+      author: "Michael Zhang",
+      players: 1342,
     },
     {
       id: 5,
-      src: "game-placeholder.jpg",
+      src: game5,
       alt: "Game 5",
-      title: "Coming Soon",
-      author: "Unknown",
-      players: 0,
+      title: "Space Pirates",
+      author: "David Wilson",
+      players: 986,
     },
     {
       id: 6,
-      src: "game-placeholder.jpg",
+      src: game6,
       alt: "Game 6",
-      title: "Coming Soon",
-      author: "Unknown",
-      players: 0,
+      title: "Dream Walker",
+      author: "Luna Park",
+      players: 754,
     },
   ];
 
@@ -145,14 +151,17 @@ const AdventurePage: React.FC = () => {
               <div key={game.id} className="game-item">
                 <img src={game.src} alt={game.alt} />
                 <div className="game-info">
-                  <h3 className="game-title">{game.title || "Coming Soon"}</h3>
-                  <div className="game-details">
-                    <span className="game-author">
+                  <div className="adv-game-title">
+                    {game.title || "Coming Soon"}
+                  </div>
+                  <div className="game-info-bottom">
+                    <div className="game-author">
                       by {game.author || "Unknown"}
-                    </span>
-                    <span className="game-players">
+                    </div>
+                    <div className="game-players">
+                      <i className="player-icon"></i>
                       {(game.players || 0).toLocaleString()} players
-                    </span>
+                    </div>
                   </div>
                 </div>
               </div>

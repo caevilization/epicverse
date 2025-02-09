@@ -4,6 +4,7 @@ import BlackBackground from "../components/BlackBackground.tsx";
 import treasuryPage from "../assets/images/treasury-page.png";
 import image1 from "../assets/placeholder/image1.jpg";
 import image2 from "../assets/placeholder/image2.jpg";
+import image3 from "../assets/placeholder/image3.png";
 import scriptBackground from "../assets/images/script-background.png";
 import audioBackground from "../assets/images/audio-background.png";
 
@@ -21,7 +22,7 @@ const TreasuryPage: React.FC = () => {
           title: "Adventure Poster",
           author: "John Doe",
           description: "A mysterious forest scene perfect for adventure games",
-          price: "0.01 SOL",
+          price: "0.01 SUI",
         },
         {
           type: "poster",
@@ -30,16 +31,16 @@ const TreasuryPage: React.FC = () => {
           title: "Mystery Poster",
           author: "Jane Smith",
           description: "Dark and moody atmosphere for mystery games",
-          price: "0.02 SOL",
+          price: "0.02 SUI",
         },
         {
           type: "poster",
-          src: image1,
+          src: image3,
           alt: "Poster 3",
           title: "Fantasy Poster",
           author: "Mike Wilson",
           description: "Magical scenery for fantasy adventure games",
-          price: "0.015 SOL",
+          price: "0.015 SUI",
         },
       ],
       layout: "text-left",
@@ -53,23 +54,23 @@ const TreasuryPage: React.FC = () => {
           type: "script",
           title: "Adventure Script",
           content:
-            "A thrilling journey through mysterious lands where the hero must save the world from an evil force. And the hero is a girl. She is a girl who is a hero.A thrilling journey through mysterious lands where the hero must save the world from an evil force. And the hero is a girl. She is a girl who is a hero.A thrilling journey through mysterious lands where the hero must save the world from an evil force. ",
+            "A thrilling journey through mysterious lands where the hero must save the world from an evil force. And the hero is a girl.",
           author: "John Doe",
-          price: "0.05 SOL",
+          price: "0.05 SUI",
         },
         {
           type: "script",
           title: "Mystery Tale",
           content: "Uncover the secrets hidden in the shadows...",
           author: "Jane Smith",
-          price: "0.03 SOL",
+          price: "0.03 SUI",
         },
         {
           type: "script",
           title: "Fantasy Quest",
           content: "Embark on an epic journey in a magical realm...",
           author: "Mike Johnson",
-          price: "0.04 SOL",
+          price: "0.04 SUI",
         },
       ],
       layout: "text-right",
@@ -85,7 +86,7 @@ const TreasuryPage: React.FC = () => {
           content:
             "Immersive orchestral soundtrack perfect for epic adventure scenes",
           author: "David Chen",
-          price: "0.03 SOL",
+          price: "0.03 SUI",
         },
         {
           type: "audio",
@@ -93,7 +94,7 @@ const TreasuryPage: React.FC = () => {
           content:
             "High-quality sound effects collection for various game scenarios",
           author: "Sarah Williams",
-          price: "0.02 SOL",
+          price: "0.02 SUI",
         },
         {
           type: "audio",
@@ -101,7 +102,7 @@ const TreasuryPage: React.FC = () => {
           content:
             "Professional voice acting for character dialogues and narration",
           author: "Michael Brown",
-          price: "0.04 SOL",
+          price: "0.04 SUI",
         },
       ],
       layout: "text-left",
