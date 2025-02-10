@@ -6,7 +6,7 @@ import epicmuse2 from "../assets/epicmuse/epicmuse2.png";
 import epicmuse3 from "../assets/epicmuse/epicmuse3.png";
 import epicmuse4 from "../assets/epicmuse/epicmuse4.png";
 import step1BoxDecoration from "../assets/images/step1-box-decoration.jpg";
-import storyUi from "../assets/images/story-ui.jpg";
+import storyUi from "../assets/materials/scenario1.png";
 import character1 from "../assets/materials/character1.png";
 import character2 from "../assets/materials/character2.png";
 import character3 from "../assets/materials/character3.png";
@@ -319,39 +319,42 @@ const CreatePage: React.FC = () => {
 
   const mockDialogues: DialogueScript[] = [
     {
-      question: "Hello",
+      question: "I want to start the tutorial.",
       answer:
-        "Hi, I'm your EpicMuse! Welcome to the wonderful world of AVG games. Today, I'll guide you step-by-step through creating your very first AVG game—just follow my lead!",
+        "Fantastic! 🌟 Let's get started with the tutorial! First, we'll explore your story background, I recommend starting with a Japanese school story. Japan is renowned for its AVG and galgame culture, and it's the perfect theme to kick off your creative journey!(✨)",
     },
     {
-      question: "Show me!",
+      question: "I hope the story contains suspense elements.",
       answer:
-        "Absolutely! Let's break it down into three simple steps. First, I recommend starting with a Japanese school mystery story. Japan is renowned for its AVG and galgame culture, and it's the perfect theme to kick off your creative journey!",
+        "Suspense elements will add an exciting layer to your cat's story! 🌟 Based on this theme, I recommend a UI style featuring soft pastel colors and an anime-inspired aesthetic. Does this sound like a good fit for your story",
     },
     {
-      question: "Sounds good",
+      question: "Sounds good, I' good with the ui style",
       answer:
-        "Great choice! Based on this theme, I recommend a UI style featuring soft pastel colors and an anime-inspired aesthetic. Does this sound like a good fit for your story?",
-    },
-    {
-      question: "I confirm the ui style",
-      answer:
-        "Fantastic! Now, take a look at the sample image I've generated for you on the right side. Next up, let's bring your story to life with some characters. I suggest three main roles: the heroine Lori, a mysterious male lead, and a supporting male character named Phi. How does that sound?",
+        "Fantastic! Now, take a look at the sample image I've generated for you on the right side. 🌟Next up, let's bring your story to life with some characters. I suggest three main roles: the heroine Lori, a mysterious male lead, and a supporting male character named Phi. How does that sound?",
     },
     {
       question: "A classic character lineup. What about their designs?",
       answer:
-        "I'm glad you like it! Based on the UI style we chose earlier, I've curated some publicly shared, free-to-use character illustrations from the community. They're a perfect match for your story. If you're happy with them, just confirm, and we'll move forward!",
+        "I'm glad you like it!🌟 Based on the UI style we chose earlier, I've curated some publicly shared, free-to-use character illustrations from the community. They're a perfect match for your story. If you're happy with them, just confirm, and we'll move forward!(✨)",
     },
     {
-      question: "The character designs are great and ok with me!",
+      question: "I am happy to use them!",
       answer:
-        "Wonderful! With the characters all set, it's time to craft the first scene of your story: *Lori arrives at a new school with a mysterious clock tower legend and encounters two enigmatic boys.* If this setup excites you, please confirm, and we'll bring it to life!",
+        "Wonderful! 🌟 With the characters all set, it's time to craft the first scene of your story! Please tell me the story outline and the length of the dialogue you want, and I will try to help you expand it. please confirm, and we'll bring it to life!",
     },
+
     {
-      question: "Interesting story, confirm it!",
+      question:
+        "Lori arrives at a new school with a mysterious clock tower legend and encounters two enigmatic boys. The story should be no more than 20 sentences. ",
       answer:
-        "That's the spirit! All the essential elements of your AVG game are now in place. The 'Go Generate' button is glowing—click it to see your story come alive! I can't wait for you to experience it!",
+        "That's the spirit!🌟 Please reply confirm, You can check the full story after generation. Do you ready to bring it to life? ",
+    },
+
+    {
+      question: "I confirm the storyline part.",
+      answer:
+        "All the essential elements of your AVG game are now in place!🌟 I will automatically add animation and transition for character display. The 'Go Generate' button is glowing—click it to see your story come alive! I can't wait for you to experience it!(✨)",
     },
   ];
 
@@ -639,14 +642,14 @@ const CreatePage: React.FC = () => {
 
     // 根据用户的输入来更新步骤数据
     switch (lastMessage.text.toLowerCase().trim()) {
-      case "i confirm the ui style":
+      case "sounds good, i' good with the ui style":
         setStepData((prev) => ({
           ...prev,
           storyUI: storyUi,
         }));
         break;
 
-      case "the character designs are great and ok with me!":
+      case "i am happy to use them!":
         setStepData((prev) => ({
           ...prev,
           characters: [
@@ -666,7 +669,7 @@ const CreatePage: React.FC = () => {
         }));
         break;
 
-      case "interesting story, confirm it!":
+      case "i confirm the storyline part.":
         setStepData((prev) => ({
           ...prev,
           storylineConfirmed: true,

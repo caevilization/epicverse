@@ -205,6 +205,16 @@ const TreasuryPage: React.FC = () => {
             </div>
           </section>
         ))}
+
+        {/* 添加发布按钮容器 */}
+        <div className="post-button-container">
+          <button
+            className="post-button"
+            onClick={() => alert("Coming Soon! 🚀")}
+          >
+            Post Your Creation
+          </button>
+        </div>
       </div>
     </div>
   );

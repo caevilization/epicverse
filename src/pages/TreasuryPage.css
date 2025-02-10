@@ -453,3 +453,34 @@
 .poster-item:hover img {
   transform: scale(1.05);
 }
+
+/* 添加发布按钮样式 */
+.post-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 6rem;
+  margin-bottom: 4rem;
+}
+
+.post-button {
+  font-family: "Syne", sans-serif;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.post-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.post-button:active {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
