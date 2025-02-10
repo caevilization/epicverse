@@ -1,6 +1,20 @@
-# Getting Started with Create React App
+# EpicVerse - Interactive Story Creation Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🌐 **Live Demo**: [https://epicverse.vercel.app](https://epicverse.vercel.app)
+
+EpicVerse is a web-based platform that empowers creators to build interactive stories and games without coding. Leveraging AI technology and Web3 capabilities, it provides a unique ecosystem for creating, sharing, and monetizing creative content.
+
+## ✨ Live Features
+
+- **Create Mode**: AI-powered interactive story creation
+- **Adventure Mode**: Browse and play community stories
+- **Treasury**: Asset marketplace for creators
+- **No-Code Platform**: Visual story building tools
+- **Responsive Design**: Works on desktop and tablet
+
+## 🚀 Quick Start
+
+Visit [https://epicverse.vercel.app](https://epicverse.vercel.app) to start creating!
 
 ## Available Scripts
 
@@ -27,20 +41,45 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Tech Stack
 
-### `npm run eject`
+- React.js with TypeScript
+- React Router v7
+- Modern CSS with Flexbox & Grid
+- Vercel Deployment
+- Web3 Integration (coming soon)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🎮 Platform Features
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Create Mode
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- AI-assisted story creation
+- Character customization
+- Scene management
+- Real-time preview
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Adventure Mode
 
-## Learn More
+- Community story library
+- Interactive gameplay
+- New releases section
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Treasury
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Resource marketplace
+- Asset sharing
+- Creator rewards
+
+## 🔄 Updates
+
+The platform is continuously being improved. Check back regularly for new features!
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Powered by Eliza
+- Deployed on Vercel
+- Built with ❤️ for storytellers everywhere
