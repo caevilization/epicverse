@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TreasuryPage.css";
 import BlackBackground from "../components/BlackBackground.tsx";
 import treasuryPage from "../assets/images/treasury-page.png";
@@ -8,7 +8,36 @@ import image3 from "../assets/placeholder/image3.png";
 import scriptBackground from "../assets/images/script-background.png";
 import audioBackground from "../assets/images/audio-background.png";
 
+// 添加资源类型枚举
+type ResourceType = "poster" | "script" | "audio";
+
+// 添加表单数据接口
+interface FormData {
+  type: ResourceType;
+  title: string;
+  description: string;
+  file: File | null;
+  price: string;
+}
+
 const TreasuryPage: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    type: "poster",
+    title: "",
+    description: "",
+    file: null,
+    price: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // TODO: 处理表单提交
+    setShowModal(false);
+    alert("Coming Soon! Your creation will be listed here soon! 🚀");
+  };
+
   const sections = [
     {
       title: "Poster Materials",
@@ -208,14 +237,109 @@ const TreasuryPage: React.FC = () => {
 
         {/* 添加发布按钮容器 */}
         <div className="post-button-container">
-          <button
-            className="post-button"
-            onClick={() => alert("Coming Soon! 🚀")}
-          >
+          <button className="post-button" onClick={() => setShowModal(true)}>
             Post Your Creation
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Submit Your Creation</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Resource Type</label>
+                <select
+                  value={formData.type}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      type: e.target.value as ResourceType,
+                    })
+                  }
+                >
+                  <option value="poster">Poster</option>
+                  <option value="script">Script</option>
+                  <option value="audio">Audio</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Title</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      title: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      description: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Price (SUI)</label>
+                <input
+                  type="number"
+                  step="0.001"
+                  value={formData.price}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      price: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Upload File</label>
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      file: e.target.files ? e.target.files[0] : null,
+                    })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="modal-buttons">
+                <button type="submit" className="submit-button">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
